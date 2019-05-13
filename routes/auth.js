@@ -44,8 +44,9 @@ router.post('/login', function (req, res, next) {
   )
     .then(jwtTokenObject => {
       if (Boolean(jwtTokenObject)) {
-        //@todo collect jwt token from here and send back
-        res.json(jwtTokenObject).status(201)
+        // authQueueProducer.registerNewUser(email)
+        //   .then(() => res.json(jwtTokenObject).status(201))
+        return res.json(jwtTokenObject).status(201)
       } else {
         res.json({ message: 'user or password incorrect' }).status(400)
       }

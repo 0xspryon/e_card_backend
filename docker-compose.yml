@@ -14,8 +14,8 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - 4000:3306
-    networks:
-      - backend
+    # networks:
+    #   - backend
 
 
   # Adminer service
@@ -24,8 +24,8 @@ services:
     restart: unless-stopped
     ports:
       - 8080:8080
-    networks:
-      - backend
+    # networks:
+    #   - backend
 
 
   # Redis Service   
@@ -34,9 +34,9 @@ services:
     restart: unless-stopped
     ports:
       - 6379:6379
-    networks:
-      - backend
+    # networks:
+    #   - backend
 
 # Networks to be created to facilitate communication between containers
-networks:
-  e-card:    
+# networks:
+#   e-card:    

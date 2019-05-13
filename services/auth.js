@@ -2,16 +2,12 @@
 
 const jwt = require('jsonwebtoken')
 const User = require('../db/models').User
-console.log({ User })
-
+const { sendEmail } = require('./email')
 const signUp = ({ firstname, lastname, email, username, password }) => {
     return User.create({ firstname, lastname, email, username, password })
-        .then(newUser => {
-            return { firstname, lastname, email, username, id: newUser.id }
-
-        })
+        .then(newUser => ({ firstname, lastname, email, username, id: newUser.id }))
         .catch(err => {
-            return null
+            throw err
         })
 }
 
@@ -40,7 +36,24 @@ const login = (email, password) => {
         .catch(err => err)
 }
 
+const sendRegistrationEmail = ({ email, username }) => {
+    const options = {
+        to: email,
+        from: 'welcome@e_card.com', // Totally up to you
+        subject: "Welcome to e_card",
+        html: `<h1>Hi ${username}. <br/>
+        We personally at e_card will like to thank you for using our service.
+        <br />
+        Click the link below to verify your account</h1>`,
+    };
+    return sendEmail(options)
+        .catch(err => {
+            console.log({ sendRegistrationEmailErr: err })
+        })
+}
+
 module.exports = {
     signUp,
     login,
+    sendRegistrationEmail,
 }

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const authService = require('./../services/auth')
+const authQueueProducer = require('./../queue/producer/AuthQueueProducer')
 
 
 router.get('/', function (req, res, next) {
@@ -17,7 +18,9 @@ router.post('/', function (req, res, next) {
     username
   })
     .then(user => {
-      res.json(user).status(201)
+      return authQueueProducer.registerNewUser({ email, username })
+        .then(job => res.json({ user, job }).status(201))
+
     })
     .catch(err => res.status(500).json({ err }))
 });

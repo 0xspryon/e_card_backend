@@ -27,5 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     })
   })
 
+  // User.afterCreate('queueing_service_send_mail', (user,options) => {
+
+  // })
+
   return User
 }
